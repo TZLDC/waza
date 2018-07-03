@@ -13,6 +13,7 @@ class Index extends Base
         $this->model = $container->model('Index');
     }
 
+
     public function indexAction()
     {
     	$sh = $this->request->getQuery('sh');
