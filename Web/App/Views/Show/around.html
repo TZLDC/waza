@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+	<title>WaZa</title>
+	<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+	<script src="/js/hammer.min.js"></script>
+	<script src="/js/3danima.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script type="text/javascript" src="/js/hide.js"></script>
+</head>
+<body>
+	<div class="show">
+		<div class="top-logo" id="logo">
+			<a href="/360/u/check_code/<{$lang}>"><img src="/images/little_logo.png"></a>
+		</div>
+		<p class="text"><{$langArr.around_content}></p>
+		<div class="img-box">
+			<div class="img" id="imgdiv">
+				<div id="img" class="img-warpper" style="background-image: url()"></div>
+				<!-- <img  > -->
+			</div>
+			<div class="arrow">
+				<a href="javascript:;"><img id="arrowImg" src="/images/arrowLeftRight.png"></a>
+			</div>
+		</div>
+		<div class="btn-box">
+			<a class="btn" href="/360/u/<{$lang}>/<{$code}>/movie"><{$langArr.watch_video}></a>
+			<a class="btn" href="/360/u/<{$lang}>/<{$code}>/images"><{$langArr.watch_image}></a>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	resize();
+	$(window).resize(function () {
+		resize();
+	});
+	function resize(){
+		var width = $('.show .img-box').width();
+		$('.show .img-box').height(width*0.75);
+		$('.image ul li a img').each(function(){
+			if($(this).width()>$(this).height()){
+				$(this).width('90%');
+			}else {
+				$(this).height('90%');
+			}
+		})
+	}
+	var imagesAll = eval(<{json_encode($image, true)}>);
+	var xImages = imagesAll['image_x'];
+	var yImagesObj = imagesAll['image_y'];
+	var canUpPosition = [];
+	
+	Object.keys(yImagesObj).forEach(function(key){
+		canUpPosition.push(key);
+	    preloadimages(yImagesObj[key]).done(function(images) {
+			yImagesObj[key] = images;
+		});
+	});
+	document.getElementsByTagName('img')[0].onmousedown = function(e){  
+	    e.preventDefault()  
+	};
+	console.log(canUpPosition);
+	preloadimages(xImages).done(function(images) {
+		initAnima("imgdiv", $("#img"), canUpPosition, images, yImagesObj,function(upActive, downActive, leftRightActive) {
+			if (upActive) {
+				$("#arrowImg").attr("src", "/images/arrowUp.png");
+			} else if (downActive) {
+				$("#arrowImg").attr("src", "/images/arrowDown.png");
+			} else {
+				$("#arrowImg").attr("src", "/images/arrowLeftRight.png");
+			}
+			console.log(upActive+"  "+downActive+"  "+leftRightActive);
+		});
+	});
+	
+</script>
+<script type="text/javascript" src="/js/jquery-3.1.0.min.js"></script>
+</html>

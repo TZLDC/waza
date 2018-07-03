@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+	<title>WaZa</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script type="text/javascript" src="/js/hide.js"></script>
+</head>
+<body>
+	<div class="index">
+		<div class="logo">
+			<img src="/images/logo.png">
+		</div>
+		<div class="form">
+			<div class="text"><{$langArr.index_content}></div>
+			<div class="input-box">
+				<form id="form" method="post">
+					<input class="one" name="code[pre]" maxlength="2" onkeyup="checklength(this.value.length);" placeholder="aa" value="<{$data.pre|escape}>">
+					<span>-</span>
+					<input class="two" name="code[end]" type="number" pattern="[0-9]*" onchange="checkInt(this);" onkeyup="this.value = this.value.replace(/[^\d]/g, '')"  placeholder="12345" value="<{$data.end|escape}>">
+				</form>
+			</div>
+		</div>
+		<button class="btn"><{$langArr.confirm}></button>
+	</div>
+	<div id="language" class="language">
+		<a class="text-warpper" href="javascript:;"><span><{$langStr}></span><span class="icon"></span></a>
+		<div class="list">
+			<ul>
+				<li>
+					<a class="clearfix <{if $lang==eng}>active <{/if}>" href="javascript:;" data-lang='eng'>
+						<span class="text">English</span>
+						<span class="icon"></span>
+					</a>
+				</li>
+				<li>
+					<a class="clearfix <{if $lang==cn}>active <{/if}>" href="javascript:;" data-lang='cn'>
+						<span class="text">简体中文</span>
+						<span class="icon"></span>
+					</a>
+				</li>
+				<li>
+					<a class="clearfix <{if $lang==tcn}>active <{/if}>" href="javascript:;" data-lang='tcn'>
+						<span class="text">繁体中文</span>
+						<span class="icon"></span>
+					</a>
+				</li>
+				<li>
+					<a class="clearfix <{if $lang==kr}>active <{/if}>" href="javascript:;" data-lang='kr'>
+						<span class="text">한국어</span>
+						<span class="icon"></span>
+					</a>
+				</li>
+				<li>
+					<a class="clearfix <{if $lang==jp}> active <{/if}>" href="javascript:;" data-lang='jp'>
+						<span class="text">日本語</span>
+						<span class="icon"></span>
+					</a>
+				</li>
+			</ul>
+			<button class="language-btn"><{$langArr.confirm}></button>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('body').on('click','.btn',function(){
+			if($('.one').val()!='' && $('.two').val()!=''){
+				$.ajax({
+			        type:'post',
+			        url: "/Show/ajaxCheck",
+			        data:$("#form").serialize(),
+			        dataType:'json',
+			        success:function(data){
+			        	if (data.code==200) {
+			        		$("#form").submit();
+			        	} else {
+			        		alert('<{$langArr.error_tip}>');
+			        	} 	
+			        },
+    			});
+			} else {
+				alert('<{$langArr.sub_tip}>');
+			}
+		}).on('click','.text-warpper',function(){
+			$('#language').toggleClass('active')
+		}).on('click','.language .list li a',function(){
+			$(this).addClass('active').parents('li').siblings().find('a').removeClass('active');
+		}).on('click','.language .language-btn',function(){
+			var lang = $("#language").find(".active").data('lang');
+			self.location = '/360/u/check_code/'.concat(lang);
+		})
+	});
+
+	function checkInt(obj)
+    {
+        var reg = /^[\d]*$/;
+        var val = $(obj).val();
+        var bool = reg.test(val);
+        if(!bool)
+        {
+            var neval = val.replace(/[^\d]/g,'');
+            $(obj).val(neval);
+        }  
+    }
+	function checklength(length)
+	{
+		if (length==2)
+		{
+			$(".two").focus();
+		}
+	}
+</script>
+</html>

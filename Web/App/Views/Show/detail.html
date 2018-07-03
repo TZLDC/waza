@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+	<meta property="og:title" content="<{$langArr.share_title}>" />
+	<title>WaZa</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" href="/css/swiper.min.css">
+  	<link rel="stylesheet" href="/css/style_swiper.css">
+	<script type="text/javascript" src="/js/hide.js"></script>
+</head>
+<body>
+	<div class="image-detail">
+		<div class="top-logo" id="logo">
+			<a href="/360/u/check_code/<{$lang}>"><img src="/images/little_logo.png"></a>
+		</div>
+		<p class="text"><{$langArr.image_detail}></p>
+		<div class="img thumb" thumblist="list">
+			<img src="<{$image.img|escape}>">
+		</div>
+		<div id="share" class="share clearfix">
+			<div class="pull-left">
+				<span class="icon"><img src="/images/icon_share.png"></span>
+				<span class="text"><{$langArr.share}></span>
+				<a href="javascript:;" class="line_share"><img src="/images/line.png"></a>
+                <a href="javascript:;" class="twitter_share"><img src="/images/twitter.png"></a>
+                <a href="javascript:;" class="facebook_share"><img src="/images/facebook.png"></a>
+			</div>
+			<div class="pull-right">
+				<a href="<{$image.img|escape}>" download="<{$image.img|escape}>"><img src="/images/icon_dawnload.png"></a>
+			</div>
+		</div>
+	</div>
+
+	<div class="swiper-container" id="origin-img">
+    	<div class="swiper-wrapper"></div>
+  	</div>
+</body>
+<script type="text/javascript" src="/js/jquery-3.1.0.min.js"></script>
+<script>
+	$(function () {
+		resize();
+		$(window).resize(function () {
+			resize();
+		});
+		function resize() {
+			var width = $('.image-detail .img').width();
+			$('.image-detail .img').height(width*0.75);
+			$('.image ul li a img').each(function(){
+				if($(this).width()>$(this).height()){
+					$(this).width('90%');
+				}else {
+					$(this).height('90%');
+				}
+			})
+		}
+		
+		try {
+			// android
+			window.WebToJs.test("image", GetUrlRelativePath(), getTitle());
+		} catch(e) {
+			console.log(e);
+		}
+		try {
+			//ios
+			window.webkit.messageHandlers.showBtLayout.postMessage(['image', GetUrlRelativePath(), getTitle()]);
+		} catch(e) {
+			console.log(e);
+		}
+		
+		function GetUrlRelativePath() {
+			var url = document.location.toString();
+	　　　　	var arrUrl = url.split("//");
+			var relUrl = arrUrl[0] + "//" + document.domain + "<{$image.img|escape}>";
+	　　　　	return relUrl;
+	　　}
+
+		function getTitle(){
+            var title = '<{$langArr.share_title}>';
+            return title;
+        }
+
+		$(".twitter_share").click(function(){
+            var twUrl = GetUrlRelativePath();
+            var twTitle = '<{$langArr.share_title}>';
+            window.open('http://twitter.com/home/?status='.concat(encodeURIComponent(twTitle)).concat(' ').concat(encodeURIComponent(twUrl)));
+        });
+        $(".facebook_share").click(function(){
+            var fsUrl = GetUrlRelativePath();
+            var fbTitle = '<{$langArr.share_title}>';
+            window.open('https://www.facebook.com/sharer.php?u='.concat(fsUrl).concat('&t=').concat(fbTitle));
+        });
+        $(".line_share").click(function(){
+            var lsUrl = GetUrlRelativePath();
+            var lsTitle = '<{$langArr.share_title}>';
+            window.open('http://line.naver.jp/R/msg/text/?'.concat(lsTitle).concat('%0D%0A').concat(lsUrl));
+        });
+	});
+</script>
+
+<script src="/js/swiper.min.js"></script>
+
+<script>
+  	imgsdata={"list":["<{$image.img}>"]}
+ 	var swiper = new Swiper('.swiper-container',{
+	zoom:true,
+	  width: window.innerWidth,
+	  virtual: true,
+		spaceBetween:20,
+		pagination: {
+          el: '.swiper-pagination',
+          type: 'fraction',
+       },
+	   on:{
+         click: function(){
+           $('#origin-img').fadeOut('fast');
+		   this.virtual.slides.length=0;
+           this.virtual.cache=[]; 
+		   swiperStatus=false; 
+       },
+    },
+  });
+
+
+  $('.thumb img').click(function(){
+	clickIndex=$(this).index();
+	imglist=$(this).parent().attr('thumblist');
+	imgs = imgsdata[imglist];
+	for(i=0;i<imgs.length;i++){
+		swiper.virtual.appendSlide('<div class="swiper-zoom-container"><img id="imgDetail" src="'+imgs[i]+'" /></div>');
+	}
+	swiper.slideTo(clickIndex);
+	$('#origin-img').fadeIn('fast');
+	swiperStatus=true;  
+  })   
+</script>
+
+</html>

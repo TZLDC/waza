@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="renderer" content="webkit"/>
+        <title>W-aza管理システム</title>
+        <link rel="stylesheet" type="text/css" href="/css/common.css">
+        <link rel="stylesheet" type="text/css" href="/css/styles.css">
+        <link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css">
+        <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+        <script src="/js/timepicker/jquery-ui.min.js"></script>
+        <script src="/js/layer/layer.js"></script>
+        <link rel="stylesheet" href="/js/layui/css/layui.css" />
+        <link href="/css/jquery.dm-uploader.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/js/timepicker/jquery-ui-timepicker-addon.min.css" />
+        <script type="text/javascript" src="/js/jquery.iframe-transport.js"></script>
+        <script type="text/javascript" src="/js/jquery.fileupload.js"></script>
+        <link rel="stylesheet" href="/js/colorbox/colorbox.css" />
+        <script type="text/javascript" src="/js/common.js"></script>
+        <script type="text/javascript" src="/js/layui/layui.js"></script>
+        <script src="/js/jquery.dm-uploader.min.js"></script>
+        <script src="/js/ui-main.js"></script>
+        <script src="/js/ui-multiple.js"></script>
+        <script src="/js/move.js"></script>
+        <script src="/js/jquery.datetimepicker.js"></script>
+        <script src="/js/jquery.datetimepicker.full.js"></script>
+        <script src="/js/html5media.min.js"></script>
+        <script type="text/javascript">
+//            $(function () {
+//                ajaxLoading();
+//            });
+        </script>
+    </head>
+    <body>
+        <div id="body">
+            <div id="header">
+                <div id="logo">W-aza 管理システム</div>
+                <div id="user"><{$smarty.session.admin.name|escape}>【<a href="/login/logout"> ログアウト </a>】</div>
+            </div>
+            <div id="content">
+                <!--sidebar-->
+                <div class="leftcontent">
+                    <div id="today"><{$smarty.const.NOW|date_format:"Y年m月d日":'':'date'}></div>
+                    <{include file="../Common/menu.html"}>
+                </div>
+                <!--end sidebar-->
+                <div id="main">
+                    <{block name="main"}><{/block}>
+                </div>
+            </div>
+        </div>
+        <div id="loading"><img src="/image/loading.gif" /></div>
+    </body>
+</html>

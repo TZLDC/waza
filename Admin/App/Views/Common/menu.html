@@ -1,0 +1,12 @@
+<{foreach from=$codeConfig.menu key=c item=m}>
+<div class="sidebar">
+    <div class="sidebar_title <{if $c == $side_bar.c}>active<{/if}>">
+        <p><{$m.name|escape}></p>
+    </div>
+    <ul class="sub_menu">
+        <{foreach from=$m.sub key=a item=s}>
+        <li <{if $side_bar.c == $a}>class="refresh_tips"<{/if}>><a href="<{$s.uri}>" class="menu_tips"><{if $side_bar.c == $a}>※<{/if}><{$s.name|escape}></a></li>
+        <{/foreach}>
+    </ul>
+</div>
+<{/foreach}>

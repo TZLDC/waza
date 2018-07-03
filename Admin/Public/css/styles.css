@@ -1,0 +1,182 @@
+/* 
+	A couple styles to make the demo page look good
+ */
+.row {
+	margin-bottom: 1rem;
+}
+[class*="col-"] {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+hr {
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+#files {
+    min-height: 320px;
+}
+@media (min-width: 768px) {
+	#files {
+		min-height: 0;
+	}
+}
+#debug {
+	overflow-y: scroll !important;
+	height: 180px;	
+}
+
+.dm-uploader {
+	border: 0.2rem dashed #A5A5C7;
+	text-align: center;
+	height: 150px;
+	width: 100%;
+    margin: 0 auto;
+    line-height: 150px;
+    font-size: 18px;
+}
+.dm-uploader.active {
+	border-color: red;
+
+	border-style: solid;
+}
+.media {
+    float: left; 
+    width: 100px; 
+    height: 150px; 
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    margin: 25px 0 25px 25px;
+}
+.search_btn {
+    position: relative;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+    color: #FFF;
+    background: #F25A42;
+    border: solid 1px #F25A42;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+}
+
+.reset_btn {
+    position: relative;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+    color: #6A6A6A;
+    background: #F3F5F4;
+    border: solid 1px #C3C3C1;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+}
+
+.video_btn {
+    position: relative;
+    display: inline-block;
+    padding: 0.25em 0;
+    width: 180px;
+    text-align: center;
+    text-decoration: none;
+    color: #FFF;
+    background: #25A642;
+    border: solid 1px #267811;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+.send {
+    position: relative;
+    display: inline-block;
+    padding: 0.25em 0;
+    text-align: center;
+    text-decoration: none;
+    color: #FFF;
+    background: #25A642;
+    border: solid 1px #267811;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    width: 100px;
+    float: left;
+    cursor: pointer;
+}
+.sendno {
+    position: relative;
+    display: inline-block;
+    padding: 0.25em 0;
+    text-align: center;
+    text-decoration: none;
+    color: #FFF;
+    background: #25A642;
+    border: solid 1px #267811;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+    width: 100px;
+    float: left;
+}
+.action_button {
+    width: 100px;
+}
+.download_btn {
+    position: relative;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+    color: #FFF;
+    background: #25A642;
+    border: solid 1px #267811;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+}
+.download_btn:hover {
+	text-decoration: none;
+}
+
+.save_btn {
+    position: relative;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    margin-right: 20px;
+    text-decoration: none;
+    color: #FFF;
+    background: #25A642;
+    border: solid 1px #267811;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    width: 50px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+}
+.save_btn1 {
+    position: relative;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    margin-right: 20px;
+    text-decoration: none;
+    color: #FFF;
+    background: #25A642;
+    border: solid 1px #267811;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    width: 50px;
+    height: 30px;
+    line-height: 20px;
+    text-align: center;
+}
+.save_btn:hover {
+	text-decoration: none;
+}

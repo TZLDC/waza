@@ -1,0 +1,140 @@
+<{extends "../Layout/default.html"}>
+<{block name="main"}>
+<script src="/js/jquery.colorbox.js"></script>
+<link rel="stylesheet" href="/js/css/colorbox.css"/>
+<div id="m_title">
+    <div id="crumb">写真撮影一覧</div>
+</div>
+<form method="get" name="search_form">
+    <div class="search">
+        <div class="title">条件検索</div>
+        <div class="search_table">
+        <table style="width: auto;">
+            <tr>
+                <th>認証コード</th>
+                <td><input type="text" class="text form_value" name="sh[authcode]" size="10"
+                           value="<{$sh.authcode}>"/></td>
+                <th>ユーザー名</th>
+                <td><input type="text" class="text form_value" name="sh[username]" size="10"
+                           value="<{$sh.username}>"/></td>
+                <th>電話番号</th>
+                <td><input type="text" class="text form_value" name="sh[mobile]" size="13"
+                           value="<{$sh.mobile}>"/></td>
+                <th>メールアドレス</th>
+                <td><input type="text" class="text form_value" name="sh[email]" size="20"
+                           value="<{$sh.email}>"/></td> 
+            </tr>
+        </table>
+        <div class="option">
+            <button class="action_button search_btn">検 索</button>
+            <button type="button" class="action_button reset_btn" onclick="searchReset()">リセット</button>
+        </div>
+        </div>
+    </div>
+    <div id="toolbar">
+        <a href="/admin/upload/user" class="download_btn">新規利用者情報登録</a>
+    </div>
+    <div class="list_bar">
+        <{include file="../Common/paging.html"}>
+        <div class="clr"></div>
+    </div>
+</form>
+
+<div class="list">
+    <table>
+        <col width="50"/>
+        <col />
+        <col width="200"/>
+        <col width="100"/>
+        <col />
+        <col width="50"/>
+        <col width="100"/>
+        <col width="100"/>
+        <col width="120"/>
+        <col width="100"/>
+        <col width="100"/>
+        <col width="150"/>
+        <tr <{if $row.status eq 3}>style="color: #c0bcb7" <{/if}>>
+            <th>NO.</th>
+            <th>ユーザー名</th>
+            <th>国籍</th>
+            <th>電話番号</th>
+            <th>メールアドレス</th>
+            <th>性別</th>
+            <th>認証コード</th>
+            <th>写真管理</th>
+            <th>閲覧期限</th>
+            <th>変更時間</th>
+            <th>メール送信日</th>
+            <th>操作</th>
+        </tr>
+        <{foreach $results.items as $key=> $row}>
+        <tr>
+            <td><{$row.id}></td>
+            <td><{$row.username}></td>
+            <td>
+                <{foreach $codeConfig.nationality as $k => $v}>
+                   <{if $k eq $row.nationality}>
+                   <{$v}>
+                   <{/if}>
+                <{/foreach}>
+            </td>
+            <td><{$row.mobile}></td>
+            <td><{$row.email}>
+            </td>
+            <td>
+                <{if $row.sex eq 1}>
+                男
+                <{elseif $row.sex eq 2}>
+                女
+                <{else}>
+                未知
+                <{/if}>
+            </td>
+            <td><{$row.authcode}></td>
+            <td><a href="/admin/upload/images/<{$row.id|escape}>">（<{$row.imgcon}>）詳細</a></td>
+            <td><{$row.duedate|date_format:'%Y-%m-%d'}>まで</td>
+            <td><{$row.updated|date_format:'%Y-%m-%d'}></td>
+            <td><{$row.sendMail|date_format:'%Y-%m-%d'}></td>
+            <td>
+                <a href="/admin/upload/user/<{$row.id|escape}>"><button style="width: 50px">編集</button></a>
+                <a onclick="changeStatus(this,<{$row.id}>)" href="javascript:;"><button style="width: 50px">削除</button></a>
+            </td>
+        </tr>
+        <{/foreach}>
+    </table>
+</div>
+<script type="text/javascript">
+    $('#select-all').click(function () {
+        if (this.checked) {
+            $('.is-option').each(function () {
+                $(this).prop('checked', true);
+            });
+        } else { // 反之 取消全选
+            $('.is-option').each(function () {
+                $(this).prop('checked', false);
+            });
+        }
+    });
+
+    function changeStatus(obj,id) {
+        layer.confirm('該当レコードを削除しますか?', {
+            btn: ['はい','いいえ'],
+            title: 'メッセージ', closeBtn: 0
+        }, function(){
+            $.post('/index/delete',{'id' : id},function(res){
+                if (res.status == 1) {
+                    $(obj).parents("tr").remove();
+                    layer.msg('削除済み!',{icon:1,time:1000});
+                    setTimeout(function(){
+                        parent.location.href = '/admin/list';
+                    },1000)
+                }
+            })
+        }, function(){
+
+        });
+    }
+</script>
+
+<{/block}>

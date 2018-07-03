@@ -1,0 +1,9 @@
+    <div class="list_title">検索結果： <{$results.paging.total_items}> 件</div>
+    <select name="sh[perpage]" onchange="$(this).closest('form').submit()" style="float:right;margin-right:10px;margin-top: 6px;">
+        <{if $codeConfig.paging.$controllerName}>
+        <{html_options options=$codeConfig.paging.$controllerName selected=$sh.perpage}>
+        <{else}>
+        <{html_options options=$codeConfig.paging.default selected=$sh.per_page}>
+        <{/if}>
+    </select>
+    <{ww_html_paging data=$results.paging uri=$smarty.server.REQUEST_URI sh=$sh}>

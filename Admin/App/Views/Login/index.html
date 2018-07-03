@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+	<title>W-aza管理システム</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			background-color: #F8EBD4;
+		}
+		.bg {
+			box-sizing: border-box;
+			width: 100%;
+			height: 100vh;
+			padding-top: 6%;
+			text-align: center;
+		}
+		.content {
+			display: inline-block;
+			width: 480px;
+		}
+		.logo {
+			text-align: center;
+			margin-bottom: 58px;
+		}
+		.logo img {
+			 width: 100px;
+		}
+		.title {
+			margin-bottom: 30px;
+			line-height: 45px;
+			font-size: 28px;
+			color: #2B2B2B;
+			text-align: center;
+		}
+		.form {
+			box-sizing: border-box;
+			width: 480px;
+			padding: 28px 38px;
+			background-color: #fff;
+			box-shadow:0px 2px 4px 0px rgba(231,222,205,1);
+			border-radius:4px
+		}
+		.error {
+    		margin: 0;
+    		font-size: 20px;
+   			color: #FF0000;
+    		background-position: left 3px;
+                display: inline-block;
+                height: 50px;
+                line-height: 50px;
+		}
+		.label {
+			display: block;
+			line-height: 30px;
+			font-size: 18px;
+			color: #2B2B2B;
+			margin-bottom: 20px;
+			text-align: left;
+		}
+		input {
+			box-sizing: border-box;
+			display: block;
+			width: 100%;
+			height: 48px;
+			line-height: 48px;
+			padding-left: 20px;
+			border: 1px solid #D0D0D0;
+			font-size: 16px;
+			border-radius:4px;
+			margin-bottom: 30px;
+			-webkit-appearance:none;
+		}
+		input::-webkit-input-placeholder {
+			color: #D0D0D0;
+		}
+		input[type="password"] {
+			margin-bottom: 0;
+		}
+		.btn {
+			width: 100%;
+			height: 48px;
+			margin-top: 40px;
+			background-color: #B33443;
+			font-size: 18px;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			margin-bottom: 0;
+			-webkit-appearance:none;
+		}
+	</style>
+</head>
+<body>
+	<div class="bg">
+		<div class="content">
+			<div class="logo">
+				<img src="/common/image/logo.png">
+			</div>
+			<form class="form" name="login_form" method="post">
+                            <{ww_error_tip errors=$errors name=password tag="span"}>
+			    <{ww_error_tip errors=$errors name=account tag="span"}>
+				<label class="label">ログインID</label>
+				<input type="text" name="data[account]" value="<{$data.account}>" placeholder="ログインIDを入力してください">
+				<label class="label">パスワード</label>
+				<input type="password" name="data[password]" value="<{$data.password}>" placeholder="パスワードを入力してください">
+				<input type="submit" value="ログイン" class="btn" name="complete" />
+			</form>
+		</div>
+	</div>
+</body>
+</html>

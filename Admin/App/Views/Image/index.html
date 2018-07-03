@@ -1,0 +1,375 @@
+<{extends "../Layout/default.html"}>
+<{block name="main"}>
+<div id="m_title">
+    <div id="crumb"><a href="/">写真管理</a> > 写真一覧</div>
+</div>
+
+<div class="info_bar">
+    <div class="info_title"><b><{$user.username}></b> の写真一覧</div>
+    <div class="clr"></div>
+</div>
+    <div class="info">
+      <form method="post" enctype="multipart/form-data">
+        <table>
+          
+           <tr>
+                <th>写真アップロード：</th>
+                <td>
+                    <div id="drag-and-drop-zone" class="dm-uploader p-5">
+                        <p>ドロップ</p>
+                    </div><!-- /uploader -->
+                    <div>
+                        <p style="color: red;margin:15px 0;">※ドラッグ&ドロップで、写真の前後順序を調整ください。</p>
+                            <div style="clear: both;"></div>
+                            <input type="hidden" id="authcode" value="<{$uid}>">
+                            <input type="hidden" name="img[]">
+                        <ul id="files">
+                            <{if $data}>
+                            <{foreach $data as $key=> $row}>
+                            
+                                <li class="media">
+                                <div style="width: 100px;height: 100px">
+                                <img width="100%" height="100%" src="<{$row.img}>" alt="Generic placeholder image">
+                                </div>
+                                <div style="width: 100px;height: 50px;word-wrap:break-word; word-break:break-all;margin-top: 10px">
+                                <p class="ellipsis-2" style="overflow: hidden;width: 100px;height: 30px;"><{$row.iname}></p>
+                                <a style="margin-top: 10px;float: right;color: red;font-size: 10px" onclick="changeStatus(this,<{$row.id}>)" href="javascript:;">削除</a>
+                                <input type="hidden" name="imgId" value="<{$row.id}>">
+                                </div>
+                                </li>
+                            
+                            <{/foreach}>
+                            <{/if}>
+                            <li class="text-muted text-center empty"></li>
+                        </ul>
+                    </div>
+                    <script type="text/html" id="files-template">
+                        <li class="media">
+                            <div style="width: 100px;height: 100px">
+                            <img width="100%" height="100%" src="https://danielmg.org/assets/image/noimage.jpg?v=v10" alt="Generic placeholder image">
+                            </div>
+                            <div style="width: 100px;height: 50px;word-wrap:break-word; word-break:break-all;margin-top: 10px">
+                            <p class="ellipsis-2" style="overflow: hidden;width: 100px;height: 30px;"></p>
+                            <a style="margin-top: 10px;float: right;color: red;font-size: 10px" id="deleted">削除</a>
+                            <input type="hidden" name="imgId" id="imgId" value="">
+                            </div>
+                        </li>
+                    </script>
+                </td>
+            </tr>
+            <!-- <tr>
+                <th>縦写真アップロード：</th>
+                <td>
+                    <div id="drag-and-drop-zone1" class="dm-uploader p-5">
+                        <p>ドロップ</p>
+                    </div>
+                    <div>
+                        <p style="color: red;margin:15px 0;">※ドラッグ&ドロップで、写真の前後順序を調整ください。</p>
+                            <div style="clear: both;"></div>
+                            <input type="hidden" id="authcode" value="<{$uid}>">
+                            <input type="hidden" name="img[]">
+                        <ul id="files1">
+                            <{if $dataimg}>
+                            <{foreach $dataimg as $key=> $row}>
+                            
+                                <li class="media">
+                                <div style="width: 100px;height: 100px">
+                                <img width="100%" height="100%" src="<{$row.img}>" alt="Generic placeholder image">
+                                </div>
+                                <div style="width: 100px;height: 50px;word-wrap:break-word; word-break:break-all;margin-top: 10px">
+                                <p class="ellipsis-2" style="overflow: hidden;width: 100px;height: 30px;"><{$row.iname}></p>
+                                <a style="margin-top: 10px;float: right;color: red;font-size: 10px" onclick="changeStatus(this,<{$row.id}>)" href="javascript:;">削除</a>
+                                <input type="hidden" name="imgId" value="<{$row.id}>">
+                                </div>
+                                </li>
+                            
+                            <{/foreach}>
+                            <{/if}>
+                            <li class="text-muted text-center empty"></li>
+                        </ul>
+                    </div>
+                    <script type="text/html" id="files-template1">
+                        <li class="media">
+                            <div style="width: 100px;height: 100px">
+                            <img width="100%" height="100%" src="https://danielmg.org/assets/image/noimage.jpg?v=v10" alt="Generic placeholder image">
+                            </div>
+                            <div style="width: 100px;height: 50px;word-wrap:break-word; word-break:break-all;margin-top: 10px">
+                            <p class="ellipsis-2" style="overflow: hidden;width: 100px;height: 30px;"></p>
+                            <a style="margin-top: 10px;float: right;color: red;font-size: 10px" id="deleted">削除</a>
+                            <input type="hidden" name="imgId" id="imgId" value="">
+                            </div>
+                        </li>
+                    </script>
+                </td>
+            </tr> -->
+            <tr>
+                <th>動画合成</th>
+                <td>
+                    <div>
+                      <div class="video_btn" onclick="javascript:changevideo(<{$uid}>)">動画合成</div>
+                      <div style="margin-top: 10px;" id="videotime">最近の合成：<{$videotime}></div>
+                    </div>
+                    <div style="margin: 20px auto;">
+                      <video src="<{$videourl}>" id="videoplay" controls="controls" width="100%" height="480px"></video>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>メール送信</th>
+                <td>
+                    <div>
+                      <{if $sendflag}>
+                      <div id="send" class="send" onclick="javascript:sendmail(<{$uid}>)">送信</div>
+                      <{else}>
+                      <div id="sendno" class="sendno">送信</div>
+                      <{/if}>
+                      <div id="sendtime" style="margin-left: 10px;float: left;height: 26px;line-height: 26px;" id="videotime">送信時刻：<{$user.sendMail|date_format:'%Y-%m-%d'}></div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="option">
+                <th></th>
+                <td>
+                    <div onclick="javascript:location='/admin/list';" class="video_btn" style="width: 120px;">写真撮影一覧へ</div>
+                </td>
+            </tr>
+        </table>
+         </form>
+    </div>
+   
+<script src="/js/jquery.dragsort.js"></script>
+<script type="text/javascript">
+     var licount = $('#files').find('li').length;
+     var licount1 = $('#files1').find('li').length;
+    // $("#files").dragsort({
+    //     dragSelector: "li img",
+    //     dragEnd: saveOrder,
+    //     dragBetween: true,
+    //     placeHolderTemplate: "<li class='media'><div></div></li>"
+    // });
+    // $("#files1").dragsort({
+    //     dragSelector: "li img",
+    //     dragEnd: saveOrder1,
+    //     dragBetween: true,
+    //     placeHolderTemplate: "<li class='media'><div></div></li>"
+    // });
+    // function saveOrder() {
+    //     var arr= [];
+    //     var licount = $('#files').find('li').length;
+    //     $('#files .media').each(function(index, el) {
+    //         var id = $(this).find('input').val();
+    //         arr.push(id)
+    //     });
+
+    //     $.post('/image/checkSort',{'sort' : arr},function(res){
+            
+    //     },'json')
+    // }
+    // function saveOrder1() {
+    //     var arr= [];
+    //     var licount = $('#files1').find('li').length;
+    //     $('#files1 .media').each(function(index, el) {
+    //         var id = $(this).find('input').val();
+    //         arr.push(id)
+    //     });
+
+    //     $.post('/image/checkSort',{'sort' : arr},function(res){
+            
+    //     },'json')
+    // }
+
+    function changeStatus(obj,id) {
+        layer.confirm('該当レコードを削除しますか?',{btn: ['はい','いいえ'] ,title: 'メッセージ',closeBtn: 0},function(index){
+        $.post('/image/deleted',{'id' : id},function(res){
+            if (res.status == 1) {
+                $(obj).parents("li").remove();
+                $(obj).parents("li").length-1;
+                layer.msg('削除済み!',{icon:1,time:1000});
+            }
+        },'json')
+        });        
+    }
+    function changevideo(uid) {
+      $.post('/image/video',{'mid' : uid},function(res){
+         if(res.status==1){
+            layer.msg(res.msg,{icon:1,time:1000});
+            $('#videotime').text('合成時間：'+res.created);
+            $('#videoplay').attr('src', res.url);
+            $('#sendno').attr('class','send');
+            $('#sendno').attr('onclick','javascript:sendmail('+uid+')');
+         } else {
+            layer.msg(res.msg,{icon:5,time:1000});
+         }
+      },'json')
+    }
+    function sendmail(uid) {
+      $.post('/image/sendMail',{'uid' : uid},function(res){
+         if(res.status==1){
+            layer.msg(res.msg,{icon:1,time:1000});
+            $('#sendtime').text('');
+            $('#sendtime').append('送信時刻：'+res.sendtime);
+         } else {
+            layer.msg(res.msg,{icon:6,time:1000});
+         }
+      },'json')
+    }
+    var authcode = $('#authcode').val();
+    $('#drag-and-drop-zone').dmUploader({ //
+    url: '/image/upload/authcode/'+authcode,
+    maxFileSize: 30000000, // 3 Megs 
+    allowedTypes: 'image/*',
+    extFilter: ["jpg", "jpeg"],
+    onDragEnter: function(){
+      // Happens when dragging something over the DnD area
+      this.addClass('active');
+    },
+    onDragLeave: function(){
+      // Happens when dragging something OUT of the DnD area
+      this.removeClass('active');
+    },
+    onInit: function(){
+      // Plugin is ready to use
+      ui_add_log('Penguin initialized :)', 'info');
+    },
+    onComplete: function(){
+      // All files in the queue are processed (success or error)
+      ui_add_log('All pending tranfers finished');
+      location.reload();
+    },
+    onNewFile: function(id, file){
+      // When a new file is added using the file selector or the DnD area
+      ui_add_log('New file added #' + id);
+      ui_multi_add_file(id, file);
+      $('#uploaderFile' + id).find('p').text(file.name)
+      if (typeof FileReader !== "undefined"){
+        var reader = new FileReader();
+        var img = $('#uploaderFile' + id).find('img');
+        var licount = $('#files').find('li').length;
+        reader.onload = function (e) {
+          img.attr('src', e.target.result);
+        }
+        reader.readAsDataURL(file);
+      }
+    },
+    onBeforeUpload: function(id){
+      // about tho start uploading a file
+      ui_add_log('Starting the upload of #' + id);
+      ui_multi_update_file_progress(id, 0, '', true);
+      ui_multi_update_file_status(id, 'uploading', 'Uploading...');
+    },
+    onUploadProgress: function(id, percent){
+      // Updating file progress
+      ui_multi_update_file_progress(id, percent);
+    },
+    onUploadSuccess: function(id, data){
+      // A file was successfully uploaded
+      ui_add_log('Server Response for file #' + id + ': ' + JSON.stringify(data));
+      ui_add_log('Upload of file #' + id + ' COMPLETED', 'success');
+      ui_multi_update_file_status(id, 'success', 'Upload Complete');
+      ui_multi_update_file_progress(id, 100, 'success', false);
+      var jsonData = JSON.parse(data)
+      var deleted = $('#uploaderFile' + id).find('#deleted');
+      var imgId = $('#uploaderFile' + id).find('#imgId');
+      deleted.attr('onclick','changeStatus(this,'+jsonData.imgid+')');
+      imgId.attr('value',jsonData.imgid);
+    },
+    onUploadError: function(id, xhr, status, message){
+      ui_multi_update_file_status(id, 'danger', message);
+      ui_multi_update_file_progress(id, 0, 'danger', false);  
+    },
+    onFallbackMode: function(){
+      // When the browser doesn't support this plugin :(
+      ui_add_log('Plugin cant be used here, running Fallback callback', 'danger');
+    },
+    onFileSizeError: function(file){
+      ui_add_log('File \'' + file.name + '\' cannot be added: size excess limit', 'danger');
+    },
+    onFileTypeError: function(file){
+      ui_add_log('File \'' + file.name + '\' cannot be added: must be an image (type error)', 'danger');
+    },
+    onFileExtError: function(file){
+      ui_add_log('File \'' + file.name + '\' cannot be added: must be an image (extension error)', 'danger');
+      alert('JPG画像をアップロードしてください')
+    }
+    });
+    
+
+    // $('#drag-and-drop-zone1').dmUploader({ //
+    // url: '/image/uploadImg/authcode/'+authcode,
+    // maxFileSize: 30000000, // 3 Megs 
+    // allowedTypes: 'image/*',
+    // extFilter: ["jpg", "jpeg"],
+    // onDragEnter: function(){
+    //   // Happens when dragging something over the DnD area
+    //   this.addClass('active');
+    // },
+    // onDragLeave: function(){
+    //   // Happens when dragging something OUT of the DnD area
+    //   this.removeClass('active');
+    // },
+    // onInit: function(){
+    //   // Plugin is ready to use
+    //   ui_add_log('Penguin initialized :)', 'info');
+    // },
+    // onComplete: function(){
+    //   // All files in the queue are processed (success or error)
+    //   ui_add_log('All pending tranfers finished');
+    // },
+    // onNewFile: function(id, file){
+    //   // When a new file is added using the file selector or the DnD area
+    //   ui_add_log('New file added #' + id);
+    //   ui_multi_add_file1(id, file);
+    //   $('#uploaderFile' + id).find('p').text(file.name)
+    //   if (typeof FileReader !== "undefined"){
+    //     var reader = new FileReader();
+    //     var img = $('#uploaderFile' + id).find('img');
+    //     var licount = $('#files1').find('li').length;
+    //     reader.onload = function (e) {
+    //       img.attr('src', e.target.result);
+    //     }
+    //     reader.readAsDataURL(file);
+    //   }
+    // },
+    // onBeforeUpload: function(id){
+    //   // about tho start uploading a file
+    //   ui_add_log('Starting the upload of #' + id);
+    //   ui_multi_update_file_progress(id, 0, '', true);
+    //   ui_multi_update_file_status(id, 'uploading', 'Uploading...');
+    // },
+    // onUploadProgress: function(id, percent){
+    //   // Updating file progress
+    //   ui_multi_update_file_progress(id, percent);
+    // },
+    // onUploadSuccess: function(id, data){
+    //   // A file was successfully uploaded
+    //   ui_add_log('Server Response for file #' + id + ': ' + JSON.stringify(data));
+    //   ui_add_log('Upload of file #' + id + ' COMPLETED', 'success');
+    //   ui_multi_update_file_status(id, 'success', 'Upload Complete');
+    //   ui_multi_update_file_progress(id, 100, 'success', false);
+    //   var jsonData = JSON.parse(data)
+    //   var deleted = $('#uploaderFile' + id).find('#deleted');
+    //   var imgId = $('#uploaderFile' + id).find('#imgId');
+    //   deleted.attr('onclick','changeStatus(this,'+jsonData.imgid+')');
+    //   imgId.attr('value',jsonData.imgid);
+    // },
+    // onUploadError: function(id, xhr, status, message){
+    //   ui_multi_update_file_status(id, 'danger', message);
+    //   ui_multi_update_file_progress(id, 0, 'danger', false);  
+    // },
+    // onFallbackMode: function(){
+    //   // When the browser doesn't support this plugin :(
+    //   ui_add_log('Plugin cant be used here, running Fallback callback', 'danger');
+    // },
+    // onFileSizeError: function(file){
+    //   ui_add_log('File \'' + file.name + '\' cannot be added: size excess limit', 'danger');
+    // },
+    // onFileTypeError: function(file){
+    //   ui_add_log('File \'' + file.name + '\' cannot be added: must be an image (type error)', 'danger');
+    // },
+    // onFileExtError: function(file){
+    //   ui_add_log('File \'' + file.name + '\' cannot be added: must be an image (extension error)', 'danger');
+    //   alert('JPG画像をアップロードしてください')
+    // }
+    // });
+</script>
+<{/block}>

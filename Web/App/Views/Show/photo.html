@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+	<title>WaZa</title>
+	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script type="text/javascript" src="/js/hide.js"></script>
+</head>
+<body>
+	<div class="image">
+		<div class="top-logo" id="logo">
+			<a href="/360/u/check_code/<{$lang}>"><img src="/images/little_logo.png"></a>
+		</div>
+		<p class="text"><{$langArr.image_list}></p>
+		<ul class="clearfix">
+			<{foreach $images as $key=> $row}>
+			<li>
+				<a href="/360/u/<{$lang}>/<{$code}>/images/<{$row.id}>">
+					<img src="<{$row.img}>">
+					<div class="num"><span><{$key+1}></span></div>
+				</a>
+			</li>
+			<{/foreach}>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript" src="/js/jquery-3.1.0.min.js"></script>
+<script>
+	$(function(){
+		resize();
+		function resize(){
+			var width = $('.image ul li a').width();
+			$('.image ul li a').height(width*0.75);
+			// $('.image ul li a img').each(function(){
+			// 	if($(this).width()>$(this).height()){
+			// 		$(this).width('90%');
+			// 	}else {
+			// 		$(this).height('90%');
+			// 	}
+			// })
+		}
+	});
+</script>
+</html>

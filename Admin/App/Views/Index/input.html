@@ -1,0 +1,99 @@
+<{extends "../Layout/default.html"}>
+<{block name="main"}>
+<div id="m_title">
+    <div id="crumb"><a href="/">写真管理</a> > 利用者情報登録</div>
+</div>
+
+<div class="info_bar">
+    <div class="info_title">利用者情報登録</div>
+    <div class="clr"></div>
+</div>
+<!--<form method="post" enctype="multipart/form-data" onsubmit="return formConfirm('save');">-->
+<form method="post" enctype="multipart/form-data">
+    <div class="info">
+        <table>
+           <tr>
+                <th>ユーザー名：</th>
+                <td>
+                    <input type="text" class="layui-input" style="width: 200px;height: 30px;line-height: 30px" name="app[username]" size="30" value="<{$app.username|escape}>"/>
+                    <{ww_error_tip errors=$errors name=username}>
+                </td>
+            </tr>
+            <tr>
+                <th>電話番号：</th>
+                <td>
+                    <input type="text" class="layui-input" style="width: 200px;height: 30px;line-height: 30px" name="app[mobile]" size="30" value="<{$app.mobile|escape}>"/>
+                    <{ww_error_tip errors=$errors name=mobile}>
+                </td>
+            </tr>
+            <tr>
+                <th>メールアドレス：</th>
+                <td>
+                    <input type="text" name="app[email]" size="30" class="layui-input" style="width: 200px;height: 30px;line-height: 30px" value="<{$app.email|escape}>"/>
+                    <{ww_error_tip errors=$errors name=email}>
+                </td>
+            </tr>
+            <tr>
+                <th>性別：</th>
+                <td>
+                    <div>
+                        <input type="radio" name="app[sex]" value="1" title="男" <{if $app.sex eq 1}>checked="checked"<{/if}> checked="checked">男
+                        <input type="radio" name="app[sex]" value="2" title="女" <{if $app.sex eq 2}>checked="checked"<{/if}>>女
+                    </div>
+                    <{ww_error_tip errors=$errors name=sex}>
+                </td>
+            </tr>
+            <tr>
+                <th>閲覧期限：</th>
+                <td>
+                    <input type="text" class="layui-input" style="width: 200px;height: 30px;float: left;line-height: 30px" id="test1" name="app[duedate]" value="<{$app.duedate|escape}>">
+                    <{ww_error_tip errors=$errors name=duedate}>
+                </td>
+            </tr>
+            <tr>
+                <th>国籍：</th>
+                <td>
+                    <select name="app[nationality]" style="height: 30px;line-height: 30px">
+                        <{foreach $nationality as $k=>$v}>
+                        <option value="<{$k}>" <{if $app.nationality eq $k}>selected="selected"<{/if}>>
+                            <{$v}>
+                        </option>
+                        <{/foreach}>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>言語選択：</th>
+                <td>
+                    <select name="app[language]" style="height: 30px;line-height: 30px">
+                        <{ww_html_select code=$codeConfig.sendMail value=$app.language empty=$codeConfig.sendMail[0]}>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>認証コード：</th>
+                <td>
+                    <input type="hidden" class="layui-input" style="width: 200px;height: 30px;float: left;line-height: 30px" id="" name="app[authcode]" value="<{$app.authcode|escape}>">
+                    <{if $app.authcode}>
+                    <{$app.authcode}>
+                    <{else}>
+                    ✻自動生成
+                    <{/if}>
+                </td>
+            </tr>
+            <tr class="option">
+                <th></th>
+                <td>
+                    <input type="submit" value="保存" class="save_btn1" name="complete"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#test1').datetimepicker({value : '<{$app.duedate}>',format: $("#datetimepicker_format_value").val(),timepicker:false,format:'Y/m/d',formatDate:'Y/m/d',});
+    });
+</script>
+<{/block}>
